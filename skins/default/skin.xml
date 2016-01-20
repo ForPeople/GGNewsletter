@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">GG Board Mailing Widget Skin</title>
+	<title xml:lang="en">GG Board Mailing Widget Skin</title>
+    <description xml:lang="ko">GG Board Mailing Widget Skin</description>
+    <version>0.1</version>
+    <date>2014-05-28</date>
+    <link>http://xeadmin.com</link>
+	<author email_address="xeadmin@forppl.com" link="http://xeadmin.com">
+         <name xml:lang="ko">포피플</name>
+		 <name xml:lang="en">ForPeople</name>
+    </author>
+
+</skin>
