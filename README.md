@@ -1,0 +1,2 @@
+# GGBoardMailing
+XE(XpressEngine) Widget
