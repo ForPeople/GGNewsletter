@@ -9,70 +9,40 @@
 class ggnewsletter extends WidgetHandler {
 	function proc($args) {
 		$logged_info = Context::get('logged_info');
-		$module_info = Context::get('module_info');
 
-		//현재 게시판에 메일링 가입되었는지 여부 판단
-		$obj->ggmailing_member_srl = $logged_info->member_srl;
-		$obj->ggmailing_module_srl = $module_info->module_srl;
+		if(Context::get('ggstatus') == 'newsletter_insert' && Context::get('email_address')) {
 
-		$output = executeQueryArray('ggmailing.getBoardMember',$obj);
+			$obj->ggmailing_email = Context::get('email_address');
 
-		if($output->data) $args->is_Member = 'A';
-		else $args->is_Member = 'N';
+			$output = executeQueryArray('ggmailing.getBoardMember',$obj); // 중복 이메일 체크
 
-		if(Context::get('ggstatus') == 'insert' && $args->is_Member == 'N') {
+			if($output->data) {
+				$args->is_Member = 'A';
+				$returnUrl = getNotEncodedUrl('', 'mid', Context::get('mid'), 'document_srl', Context::get('document_srl'));
+				echo '<script>alert("이미 가입이 되어 있는 이메일입니다.");location.href="'.$returnUrl.'";</script>';
+			}
+			else $args->is_Member = 'N';
+
+			$args->ggmailing_member_srl = $logged_info->member_srl ? $logged_info->member_srl : ''; //비회원도 가능 
+			$args->ggmailing_nickname = $logged_info->nick_name ? $logged_info->nick_name : '뉴스레터';
+			$args->ggmailing_email = $logged_info->email_address ? $logged_info->email_address : Context::get('email_address');
+			$args->ggmailing_member_regdate = $logged_info->regdate ? $logged_info->regdate : date('YmdHis');
 			
-			$args->ggmailing_member_srl = $logged_info->member_srl;
-			$args->ggmailing_nickname = $logged_info->nick_name;
-			$args->ggmailing_email = $logged_info->email_address;
-			$args->ggmailing_member_regdate = $logged_info->regdate;
-			
-			$args->ggmailing_module_srl = $module_info->module_srl;
-			$args->ggmailing_mid = $module_info->mid;
-			//$args->ggmailing_document_srl = Context::get('document_srl');
-			//$args->ggmailing_comment_srl = Context::get('comment_srl');
+			$args->ggmailing_module_srl = $args->module_srl;// 선택한 게시판 모듈
+			$oModuleModel = getModel('module');
+			$ggmodule_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+			$args->ggmailing_mid = $ggmodule_info->mid;
 			$args->regdate = date('YmdHis');
 
-			executeQuery('ggmailing.insertGgmailingBoardMember',$args);
+			if($args->is_Member == 'N') executeQuery('ggmailing.insertGgmailingBoardMember',$args);
 
 			$args->is_Member = 'A';
-
-			$gg = new stdClass();
-			$gg->ggmailing_module_srl = $module_info->module_srl;
-			$ggoutput = executeQueryArray('ggmailing.getBoardMemberCount',$gg);
-			$args->is_Count = count($ggoutput->data);
 			$returnUrl = getNotEncodedUrl('', 'mid', Context::get('mid'), 'document_srl', Context::get('document_srl'));
-			echo '<script>alert("메일링 가입이 완료되었습니다.");location.href="'.$returnUrl.'";</script>';
-
-		} elseif(Context::get('ggstatus') == 'delete' && $args->is_Member == 'A') {
-
-			$args->ggmailing_member_srl = $logged_info->member_srl;
-			$args->ggmailing_document_srl = $module_info->module_srl;
-			$ggoutput = executeQueryArray('ggmailing.getBoardMember', $args);
-			foreach($ggoutput->data as $key => $val) {
-				if(!$val->ggmailing_document_srl) {
-					$args->ggmailing_board_srl = $val->ggmailing_board_srl;
-					executeQuery('ggmailing.deleteGgmailingBoardMember',$args);
-				}
-			}
-
-			$args->is_Member = 'N';
-			$returnUrl = getNotEncodedUrl('', 'mid', Context::get('mid'), 'document_srl', Context::get('document_srl'));
-			echo '<script>alert("메일링 탈퇴가 완료되었습니다.");location.href="'.$returnUrl.'";</script>';
+			echo '<script>alert("뉴스레터 가입이 완료되었습니다.");location.href="'.$returnUrl.'";</script>';
 		}
-		
-		$gg = new stdClass();
-		$gg->ggmailing_module_srl = $module_info->module_srl;
-		$ggoutput = executeQueryArray('ggmailing.getBoardMemberCount',$gg);
-		$args->is_Count = count($ggoutput->data);
-
 		//위젯 옵션 설정
-		if(!$args->before_btn_name) $args->before_btn_name = '메일링 가입';
-		if(!$args->after_btn_name) $args->after_btn_name = '메일링 탈퇴';
-		if(!$args->align) $args->align = 'left';
+		if(!$args->btn_name) $args->btn_name = '뉴스레터 가입';
 
-		// 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
-		Context::set('colorset', $args->colorset);
 		Context::set('widget_info', $args);
 
 		$tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);

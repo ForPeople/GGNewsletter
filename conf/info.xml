@@ -10,10 +10,9 @@
 		<name xml:lang="en">GG</name>
     </author>
     <extra_vars>
-		<var id="module_srl">
-            <type>module_srl_list</type>
+		<var id="module_srl" type="module_srl_list">
             <name xml:lang="ko">뉴스레터를 등록할 대상 게시판</name>
-            <description xml:lang="ko">하나만 선택하세요.</description>
+            <description xml:lang="ko">하나만 선택하세요. 선택한 게시판에 게시판 메일링으로 등록됩니다.</description>
         </var>
 		<var id="btn_name" type="text">
 			<name xml:lang="ko">버튼 텍스트</name>
