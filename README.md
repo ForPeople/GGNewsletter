@@ -1,3 +1,3 @@
-# GGBoardMailing
-## 경로 : /xe/widgets/ggboardmailing_widget/
+# GGNewsletter
+## 경로 : /xe/widgets/ggnewsletter/
 XE(XpressEngine) Widget

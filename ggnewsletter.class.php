@@ -1,22 +1,16 @@
 <?php
 /**
- * @class ggboardmailing_widget
+ * @class ggnewsletter
  * @author GG
- * @brief gg board mailing widget
- * @version 0.3
+ * @brief gg newsletter widget
+ * @version 0.1
  **/
 
-class ggboardmailing_widget extends WidgetHandler {
+class ggnewsletter extends WidgetHandler {
 	function proc($args) {
 		$logged_info = Context::get('logged_info');
 		$module_info = Context::get('module_info');
 
-		//로그인 전용
-		if(!$logged_info) return;
-		
-		//게시판 목록 전용노출
-		//if(Context::get('act') || Context::get('document_srl')) return;
-		
 		//현재 게시판에 메일링 가입되었는지 여부 판단
 		$obj->ggmailing_member_srl = $logged_info->member_srl;
 		$obj->ggmailing_module_srl = $module_info->module_srl;
@@ -82,7 +76,7 @@ class ggboardmailing_widget extends WidgetHandler {
 		Context::set('widget_info', $args);
 
 		$tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);
-		$tpl_file = 'list';
+		$tpl_file = 'newsletter';
 		$oTemplate = &TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
