@@ -1,15 +1,40 @@
 <load target="css/button_flat.css" />
 
 <style>
-#ggboardmailing_btn {margin-bottom:10px; }
+.ggnewsletter {width:100%;height:35px;vertical-align: middle;}
+.ggnewsletter_text {padding:5px;width:200px;}
 </style>
 
-<div align="{$widget_info->align}">
-<!--@if($widget_info->is_Member == 'N')-->
-<a id="ggboardmailing_btn" href="#" class="xet_btn medium asbestos">{$widget_info->is_Count}명 소식 받는중</a>
-<a id="ggboardmailing_btn" href="#" onclick="javascript:if(confirm('이 게시판의 새글소식을 메일로 받으시겠습니까?')) document.location.href='{getUrl('','mid',$mid,'ggstatus','insert','document_srl',Context::get('document_srl'),'comment_srl',Context::get('comment_srl'))}'; else return false;" class="xet_btn medium silver">{$widget_info->before_btn_name}</a>
-<!--@elseif($widget_info->is_Member == 'A')-->
-<a id="ggboardmailing_btn" href="#" class="xet_btn medium asbestos">{$widget_info->is_Count}명 소식 받는중</a>
-<a id="ggboardmailing_btn" href="#" onclick="javascript:if(confirm('정말 탈퇴하시겠습니까?')) document.location.href='{getUrl('','mid',$mid,'ggstatus','delete','document_srl',Context::get('document_srl'),'comment_srl',Context::get('comment_srl'))}'; else return false;" class="xet_btn medium red">{$widget_info->after_btn_name}</a>
-<!--@endif-->
+<div class="ggnewsletter">
+
+<input type="text" name="email_address" value="" class="ggnewsletter_text" id="ggnewsletter_text" />
+<input type="button" value="{$widget_info->btn_name}" class="xet_btn medium silver" onclick="ggnewsletter_submit();" />
+
 </div>
+
+<script>
+function ggnewsletter_submit()
+{
+	if(ggnewsletter_check() == false) return false;
+	if(confirm('뉴스레터를 메일로 받으시겠습니까?'))
+	{
+		var email_address = jQuery("#ggnewsletter_text").val();
+		var url = "{getUrl('','mid',$mid,'ggstatus','newsletter_insert','document_srl',Context::get('document_srl'),'comment_srl',Context::get('comment_srl'))}&email_address="+email_address;
+		url = url.replace(/&amp;/g, '&');
+		location.href=url;
+		return false;
+	}
+}
+function ggnewsletter_check()
+{
+	var eTarget = '#ggnewsletter_text';
+	var eEmail = jQuery(eTarget).val();
+	var eCheck = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+.[a-zA-Z.]+$/;
+	if(eEmail.match(eCheck) == null) {
+		alert('잘못된 이메일 형식입니다(예)admin@domain.com');
+		jQuery(eTarget).val('');
+		jQuery(eTarget).focus();
+		return false;
+	}
+}
+</script>
