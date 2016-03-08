@@ -3,7 +3,7 @@
  * @class ggboardmailing_widget
  * @author GG
  * @brief gg board mailing widget
- * @version 0.1
+ * @version 0.3
  **/
 
 class ggboardmailing_widget extends WidgetHandler {
@@ -35,8 +35,8 @@ class ggboardmailing_widget extends WidgetHandler {
 			
 			$args->ggmailing_module_srl = $module_info->module_srl;
 			$args->ggmailing_mid = $module_info->mid;
-			$args->ggmailing_document_srl = Context::get('document_srl');
-			$args->ggmailing_comment_srl = Context::get('comment_srl');
+			//$args->ggmailing_document_srl = Context::get('document_srl');
+			//$args->ggmailing_comment_srl = Context::get('comment_srl');
 			$args->regdate = date('YmdHis');
 
 			executeQuery('ggmailing.insertGgmailingBoardMember',$args);
@@ -50,7 +50,7 @@ class ggboardmailing_widget extends WidgetHandler {
 		} elseif(Context::get('ggstatus') == 'delete' && $args->is_Member == 'A') {
 			$args->ggmailing_member_srl = $logged_info->member_srl;
 			$args->ggmailing_module_srl = $module_info->module_srl;
-
+			$args->ggmailing_document_srl = '';
 			executeQuery('ggmailing.deleteGgmailingBoardMember',$args);
 
 			$args->is_Member = 'N';
