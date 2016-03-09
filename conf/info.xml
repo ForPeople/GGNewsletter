@@ -3,7 +3,7 @@
 	<title xml:lang="ko">GG 뉴스레터 위젯</title>
 	<title xml:lang="en">GG Newsletter Widget</title>
     <description xml:lang="ko">우리알림 모듈과 함께 사용하는 GG 뉴스레터 위젯입니다.</description>
-    <version>0.1</version>
+    <version>0.2</version>
     <date>2016-03-08</date>
     <author email_address="xeadmin@forppl.com" link="http://xeadmin.com">
         <name xml:lang="ko">GG</name>

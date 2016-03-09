@@ -7,7 +7,7 @@
 
 <div class="ggnewsletter">
 
-<input type="text" name="email_address" value="" class="ggnewsletter_text" id="ggnewsletter_text" />
+<input type="text" name="email_address" value="{$logged_info->email_address}"|cond="$logged_info" readonly|cond="$logged_info" class="ggnewsletter_text" id="ggnewsletter_text" />
 <input type="button" value="{$widget_info->btn_name}" class="xet_btn medium silver" onclick="ggnewsletter_submit();" />
 
 </div>
