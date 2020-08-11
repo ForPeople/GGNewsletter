@@ -13,7 +13,7 @@ class ggnewsletter extends WidgetHandler {
 		if(Context::get('ggstatus') == 'newsletter_insert' && Context::get('email_address')) {
 
 			$obj->ggmailing_email = Context::get('email_address');
-
+			$obj->ggmailing_module_srl = $args->module_srl;
 			$output = executeQueryArray('ggmailing.getBoardMember',$obj); // 중복 이메일 체크
 
 			if($output->data) {
