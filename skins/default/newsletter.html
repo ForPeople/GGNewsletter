@@ -29,7 +29,8 @@ function ggnewsletter_check()
 {
 	var eTarget = '#ggnewsletter_text';
 	var eEmail = jQuery(eTarget).val();
-	var eCheck = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+	var eCheck = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+
 	if(eCheck.test(eEmail) == false) {
 		alert('잘못된 이메일 형식입니다(예)admin@domain.com');
 		jQuery(eTarget).val('');
